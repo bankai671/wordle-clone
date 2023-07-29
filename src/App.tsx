@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Game } from './components';
 
+import './index.css';
+
 export const App = () => {
   return (
     <div>
