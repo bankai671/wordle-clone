@@ -1,3 +1,22 @@
 .board {
-  
+  width: 300px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+}
+
+.square {
+  width: 52px;
+  height: 52px;
+  border: 2px solid #3a3a3c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
