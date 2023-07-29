@@ -1,23 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import styles from './Board.module.css';
-
-const BOARD_SCELETON = Array.from({ length: 6 }, () => Array(5).fill(0));
+import styles from './Board.module.less';
 
 export const Board = () => {
-  const [board, setBoard] = useState(BOARD_SCELETON);
+  const [lines, setLines] = useState<string[][]>(Array(6).fill(Array(5).fill(null)));
+  const [input, setInput] = useState('');
 
   useEffect(() => {
-    console.log(board);
-  }, []);
+    function handleKeydown(event: KeyboardEvent) {
+      if (event.key === 'Backspace') {
+        setInput((prev) => prev.slice(0, -1));
+      }
+      if (event.key === 'Enter') {
+        console.log(event.key);
+      }
+      if (!/^[a-z]$/i.test(event.key)) {
+        return;
+      }
+      if (input.length >= 5) {
+        return;
+      }
+      setInput((prev) => prev + event.key);
+    }
+
+    window.addEventListener('keydown', handleKeydown);
+    return () => window.removeEventListener('keydown', handleKeydown);
+  }, [input]);
+
+  useEffect(() => {
+    console.log('current input state: ', input);
+  }, [input]);
 
   return (
     <div className={styles.board}>
-      {board.map((row, y) => (
-        <div className={styles.row}>
-          {row.map((square, x) => (
-            <div className={styles.square}>
-              {y} - {x}
+      {lines.map((line, i) => (
+        <div className={styles.line} key={i}>
+          {line.map((tile, j) => (
+            <div className={styles.tile} key={j}>
+              {tile}
             </div>
           ))}
         </div>
