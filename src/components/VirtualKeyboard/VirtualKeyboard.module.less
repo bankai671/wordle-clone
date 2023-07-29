@@ -1,0 +1,38 @@
+.keyboard {
+  flex: 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  user-select: none;
+  margin-bottom: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn {
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  padding: 15px;
+  background-color: #414141;
+  color: #c9c9c9;
+  &:hover {
+    transition: background-color .18s ease;
+    background-color: #2e2e2e;
+  }
+  &:active {
+    transition: background-color .1s ease;
+    background-color: #414141;
+  }
+  &:focus-visible {
+    transition: background-color .18s ease;
+    background-color: #2e2e2e;
+  }
+}
