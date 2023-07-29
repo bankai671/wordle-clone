@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Header, Board, VirtualKeyboard } from './components';
 
-import './index.css';
+import './index.less';
 
 export const App = () => {
   return (
