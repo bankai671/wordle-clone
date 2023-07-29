@@ -6,8 +6,8 @@ import './index.css';
 
 export const App = () => {
   return (
-    <div>
-      <h1>Worlde</h1>
+    <div className='app'>
+      <h1 className='app-title'>Worlde</h1>
       <Game />
     </div>
   );
