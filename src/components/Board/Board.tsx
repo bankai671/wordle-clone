@@ -1,47 +1,60 @@
 import { useEffect, useState } from 'react';
 
+import { Line } from '..';
+
 import styles from './Board.module.less';
 
 export const Board = () => {
-  const [lines, setLines] = useState<string[][]>(Array(6).fill(Array(5).fill(null)));
-  const [input, setInput] = useState('');
+  const [solution, setSolution] = useState<string>('');
+  const [guesses, setGuesses] = useState<string[] | null[]>(Array(6).fill(null));
+  const [currentGuess, setCurrentGuess] = useState<string>('');
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
   useEffect(() => {
-    function handleKeydown(event: KeyboardEvent) {
+    function handleType(event: KeyboardEvent) {
       if (event.key === 'Backspace') {
-        setInput((prev) => prev.slice(0, -1));
+        setCurrentGuess(currentGuess.slice(0, -1));
+        console.log(event.key);
+        return;
       }
       if (event.key === 'Enter') {
-        console.log(event.key);
-      }
-      if (!/^[a-z]$/i.test(event.key)) {
+        if (currentGuess.length !== 5) {
+          return;
+        }
+        const isCorrect = solution === currentGuess;
+        if (isCorrect) {
+          setIsGameOver(true);
+        }
         return;
       }
-      if (input.length >= 5) {
+      if (!/^[a-z]$/i.test(event.key) || currentGuess.length === 5) {
         return;
       }
-      setInput((prev) => prev + event.key);
+
+      setCurrentGuess(currentGuess + event.key);
     }
 
-    window.addEventListener('keydown', handleKeydown);
-    return () => window.removeEventListener('keydown', handleKeydown);
-  }, [input]);
+    window.addEventListener('keydown', handleType);
+
+    return () => window.removeEventListener('keydown', handleType);
+  }, [currentGuess]);
 
   useEffect(() => {
-    console.log('current input state: ', input);
-  }, [input]);
+    console.log(currentGuess);
+  }, [currentGuess]);
+
+  useEffect(() => {
+    console.log('line: ', guesses);
+  }, [guesses]);
+
+  useEffect(() => {}, []);
 
   return (
     <div className={styles.board}>
-      {lines.map((line, i) => (
-        <div className={styles.line} key={i}>
-          {line.map((tile, j) => (
-            <div className={styles.tile} key={j}>
-              {tile}
-            </div>
-          ))}
-        </div>
-      ))}
+      {guesses.map((line, i) => {
+        const isCurrentGuess = i === guesses.findIndex((value) => value === null);
+        return <Line guess={isCurrentGuess ? currentGuess : line ?? ''} />;
+      })}
     </div>
   );
 };
