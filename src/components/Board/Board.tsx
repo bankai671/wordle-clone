@@ -4,29 +4,52 @@ import { Line } from '..';
 
 import styles from './Board.module.less';
 
+const API_URL = 'words.json';
+
 export const Board = () => {
   const [solution, setSolution] = useState<string>('');
-  const [guesses, setGuesses] = useState<string[] | null[]>(Array(6).fill(null));
+  const [guesses, setGuesses] = useState<string[]>(Array(6).fill(null));
   const [currentGuess, setCurrentGuess] = useState<string>('');
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
   useEffect(() => {
+    async function fetchWord() {
+      const response = await fetch(API_URL);
+      const words = await response.json();
+      const randomWord = words[Math.floor(Math.random() * words.length)];
+      setSolution(randomWord);
+    }
+
+    fetchWord();
+  }, []);
+
+  useEffect(() => {
     function handleType(event: KeyboardEvent) {
-      if (event.key === 'Backspace') {
-        setCurrentGuess(currentGuess.slice(0, -1));
-        console.log(event.key);
+      if (isGameOver) {
         return;
       }
+
+      if (event.key === 'Backspace') {
+        setCurrentGuess(currentGuess.slice(0, -1));
+        return;
+      }
+
       if (event.key === 'Enter') {
         if (currentGuess.length !== 5) {
           return;
         }
-        const isCorrect = solution === currentGuess;
-        if (isCorrect) {
+
+        const newGuesses = Array.from(guesses);
+        newGuesses[guesses.findIndex(value => value === null)] = currentGuess;
+        setGuesses(newGuesses);
+        setCurrentGuess('');
+
+        if (solution === currentGuess) {
           setIsGameOver(true);
         }
         return;
       }
+
       if (!/^[a-z]$/i.test(event.key) || currentGuess.length === 5) {
         return;
       }
@@ -35,25 +58,23 @@ export const Board = () => {
     }
 
     window.addEventListener('keydown', handleType);
-
     return () => window.removeEventListener('keydown', handleType);
-  }, [currentGuess]);
-
-  useEffect(() => {
-    console.log(currentGuess);
-  }, [currentGuess]);
-
-  useEffect(() => {
-    console.log('line: ', guesses);
-  }, [guesses]);
+  }, [currentGuess, isGameOver, solution, guesses]);
 
   useEffect(() => {}, []);
 
   return (
     <div className={styles.board}>
-      {guesses.map((line, i) => {
+      {guesses.map((guess, i) => {
         const isCurrentGuess = i === guesses.findIndex((value) => value === null);
-        return <Line guess={isCurrentGuess ? currentGuess : line ?? ''} />;
+        return (
+          <Line
+            guess={isCurrentGuess ? currentGuess : guess ?? ''}
+            isFinal={!isCurrentGuess && guess !== null}
+            solution={solution}
+            key={String(guess) + i}
+          />
+        );
       })}
     </div>
   );
