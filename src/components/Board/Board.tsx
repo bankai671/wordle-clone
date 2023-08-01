@@ -8,6 +8,7 @@ const API_URL = 'words.json';
 
 export const Board = () => {
   const [solution, setSolution] = useState<string>('');
+  const [validGuesses, setValidGuesses] = useState<string[]>([]);
   const [guesses, setGuesses] = useState<string[]>(Array(6).fill(null));
   const [currentGuess, setCurrentGuess] = useState<string>('');
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
@@ -17,6 +18,7 @@ export const Board = () => {
       const response = await fetch(API_URL);
       const words = await response.json();
       const randomWord = words[Math.floor(Math.random() * words.length)];
+      setValidGuesses(words);
       setSolution(randomWord);
     }
 
@@ -36,6 +38,9 @@ export const Board = () => {
 
       if (event.key === 'Enter') {
         if (currentGuess.length !== 5) {
+          return;
+        }
+        if (currentGuess.length === 5 && !validGuesses.includes(currentGuess)) {
           return;
         }
 
