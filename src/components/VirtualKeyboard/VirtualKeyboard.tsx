@@ -1,5 +1,3 @@
-import React, { CSSProperties } from 'react';
-
 import styles from './VirtualKeyboard.module.less';
 
 export const VirtualKeyboard = () => {
@@ -25,10 +23,7 @@ export const VirtualKeyboard = () => {
       </div>
       <div className={styles.row}>
         {THIRD_ROW.map((key) => (
-          <button
-            className={styles.btn}
-            key={key}
-          >
+          <button className={styles.btn} key={key}>
             {key}
           </button>
         ))}
