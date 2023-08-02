@@ -8,9 +8,9 @@ const API_URL = 'words.json';
 
 export const Board = () => {
   const [solution, setSolution] = useState<string>('');
-  const [validGuesses, setValidGuesses] = useState<string[]>([]);
   const [guesses, setGuesses] = useState<string[]>(Array(6).fill(null));
   const [currentGuess, setCurrentGuess] = useState<string>('');
+  const [validGuesses, setValidGuesses] = useState<string[]>([]);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const Board = () => {
         }
 
         const newGuesses = Array.from(guesses);
-        newGuesses[guesses.findIndex(value => value === null)] = currentGuess;
+        newGuesses[guesses.findIndex((value) => value === null)] = currentGuess;
         setGuesses(newGuesses);
         setCurrentGuess('');
 
@@ -65,8 +65,6 @@ export const Board = () => {
     window.addEventListener('keydown', handleType);
     return () => window.removeEventListener('keydown', handleType);
   }, [currentGuess, isGameOver, solution, guesses]);
-
-  useEffect(() => {}, []);
 
   return (
     <div className={styles.board}>
