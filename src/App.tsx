@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Header, Board, VirtualKeyboard } from './components';
 
 import './index.less';
