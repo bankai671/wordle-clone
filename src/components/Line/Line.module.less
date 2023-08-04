@@ -3,30 +3,22 @@
   gap: 5px;
 }
 
-.tile {
-  width: 52px;
-  height: 52px;
-  border: 2px solid #3a3a3c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 16px;
+.incorrentLine {
+  animation-name: shake;
+  animation-duration: .20s;
 }
 
-.correct {
-  background-color: lightgreen;
-  border: none;
-  color: #1d1d1d;
-}
-
-.close {
-  background-color: #eeee90;
-  border: none;
-  color: #1d1d1d;
-}
-
-.incorrect {
-  background-color: #3a3a3c;
+@keyframes shake {
+  0% {
+    transform: translateX(2%);
+  }
+  25% {
+    transform: translateX(-4%);
+  }
+  50% {
+    transform: translateX(2%);
+  }
+  100% {
+    transform: translateX(-4%);
+  }
 }
