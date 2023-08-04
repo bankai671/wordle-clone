@@ -1,38 +1,50 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
+
+import { Tile } from '..';
 
 import styles from './Line.module.less';
-
-const WORD_LENGTH = 5;
 
 interface LineProps {
   guess: string;
   isFinal: boolean;
   solution: string;
+  lineClassName: string;
 }
 
-export const Line: FunctionComponent<LineProps> = ({ guess, isFinal, solution }) => {
-  const tiles = [];
+export const Line: FunctionComponent<LineProps> = ({
+  guess,
+  isFinal,
+  solution,
+  lineClassName,
+}) => {
+  const tiles = Array(5).fill(null);
+  const lineClassNames = [styles.line, styles[lineClassName]];
 
-  for (let i = 0; i < WORD_LENGTH; i++) {
-    const char = guess[i];
-    const classNames = [styles.tile];
+  return (
+    <div className={lineClassNames.join(' ')}>
+      {tiles.map((tile, i) => {
+        const char = guess[i];
+        let className = '';
 
-    if (isFinal) {
-      if (char.toUpperCase() === solution[i].toUpperCase()) {
-        classNames.push(styles.correct);
-      } else if (solution.includes(char || char.toUpperCase())) {
-        classNames.push(styles.close);
-      } else {
-        classNames.push(styles.incorrect);
-      }
-    }
+        if (isFinal) {
+          if (char.toUpperCase() === solution[i].toUpperCase()) {
+            className = 'correct';
+          } else if (solution.includes(char || char.toUpperCase())) {
+            className = 'close';
+          } else {
+            className = 'incorrect';
+          }
+        }
 
-    tiles.push(
-      <div key={i} className={classNames.join(' ')}>
-        {char}
-      </div>
-    );
-  }
-
-  return <div className={styles.line}>{tiles}</div>;
+        return (
+          <Tile
+            char={char}
+            validationClassName={className}
+            isFinal={isFinal}
+            key={i}
+          />
+        );
+      })}
+    </div>
+  );
 };
