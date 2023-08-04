@@ -1,0 +1,43 @@
+.tile {
+  width: 52px;
+  height: 52px;
+  border: 2px solid #3a3a3c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.scaleTile {
+  animation-name: scale;
+  animation-duration: .5s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+.correct {
+  background-color: lightgreen;
+  border: none;
+  color: #1d1d1d;
+}
+
+.close {
+  background-color: #eeee90;
+  border: none;
+  color: #1d1d1d;
+}
+
+.incorrect {
+  background-color: #3a3a3c;
+}
+
+@keyframes scale {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
