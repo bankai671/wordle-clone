@@ -12,6 +12,7 @@ export const Board = () => {
   const [currentGuess, setCurrentGuess] = useState<string>('');
   const [validGuesses, setValidGuesses] = useState<string[]>([]);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [lineClassName, setLineClassName] = useState<string>('');
 
   useEffect(() => {
     async function fetchWord() {
@@ -37,10 +38,11 @@ export const Board = () => {
       }
 
       if (event.key === 'Enter') {
-        if (currentGuess.length !== 5) {
-          return;
-        }
-        if (currentGuess.length === 5 && !validGuesses.includes(currentGuess)) {
+        if (
+          currentGuess.length !== 5 ||
+          (currentGuess.length === 5 && !validGuesses.includes(currentGuess))
+        ) {
+          setLineClassName('incorrentLine');
           return;
         }
 
@@ -66,16 +68,37 @@ export const Board = () => {
     return () => window.removeEventListener('keydown', handleType);
   }, [currentGuess, isGameOver, solution, guesses]);
 
+  useEffect(() => {
+    let lineTimeout = 0;
+
+    if (lineClassName.length) {
+      lineTimeout = setTimeout(() => {
+        setLineClassName('');
+      }, 200);
+    }
+
+    return () => {
+      clearTimeout(lineTimeout);
+    }
+
+  }, [lineClassName]);
+
+  useEffect(() => {
+    console.log(solution);
+  }, [solution]);
+
   return (
     <div className={styles.board}>
       {guesses.map((guess, i) => {
-        const isCurrentGuess = i === guesses.findIndex((value) => value === null);
+        const isCurrentGuess =
+          i === guesses.findIndex((value) => value === null);
         return (
           <Line
             guess={isCurrentGuess ? currentGuess : guess ?? ''}
             isFinal={!isCurrentGuess && guess !== null}
             solution={solution}
             key={String(guess) + i}
+            lineClassName={isCurrentGuess ? lineClassName : ''}
           />
         );
       })}
