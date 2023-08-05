@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styles from './Header.module.less';
 
 export const Header = () => {
