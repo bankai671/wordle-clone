@@ -83,15 +83,11 @@ export const Board = () => {
 
   }, [lineClassName]);
 
-  useEffect(() => {
-    console.log(solution);
-  }, [solution]);
-
   return (
     <div className={styles.board}>
       {guesses.map((guess, i) => {
-        const isCurrentGuess =
-          i === guesses.findIndex((value) => value === null);
+        const isCurrentGuess = i === guesses.findIndex((value) => value === null);
+
         return (
           <Line
             guess={isCurrentGuess ? currentGuess : guess ?? ''}
