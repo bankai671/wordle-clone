@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent } from 'react';
 
 import styles from './Tile.module.less';
 
@@ -20,11 +20,5 @@ export const Tile: FunctionComponent<TileProps> = ({
     styles[validationClassName],
   ];
 
-  return (
-    <div
-      className={classNames.join(' ')}
-    >
-      {char}
-    </div>
-  );
+  return <div className={classNames.join(' ')}>{char}</div>;
 };
