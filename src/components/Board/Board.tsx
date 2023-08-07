@@ -18,8 +18,10 @@ export const Board = () => {
     async function fetchWord() {
       const response = await fetch(API_URL);
       const words = await response.json();
-      const randomWord = words[Math.floor(Math.random() * words.length)];
-      setValidGuesses(words);
+      const randomWord =
+        words[Math.floor(Math.random() * words.length)].toUpperCase();
+      const wordsUpper = words.map((word: string) => word.toUpperCase());
+      setValidGuesses(wordsUpper);
       setSolution(randomWord);
     }
 
@@ -51,7 +53,7 @@ export const Board = () => {
         setGuesses(newGuesses);
         setCurrentGuess('');
 
-        if (solution === currentGuess) {
+        if (solution === currentGuess.toUpperCase()) {
           setIsGameOver(true);
         }
         return;
@@ -61,12 +63,12 @@ export const Board = () => {
         return;
       }
 
-      setCurrentGuess(currentGuess + event.key);
+      setCurrentGuess(currentGuess.toUpperCase() + event.key.toUpperCase());
     }
 
     window.addEventListener('keydown', handleType);
     return () => window.removeEventListener('keydown', handleType);
-  }, [currentGuess, isGameOver, solution, guesses]);
+  }, [currentGuess, isGameOver, solution, guesses, validGuesses]);
 
   useEffect(() => {
     let lineTimeout = 0;
@@ -79,14 +81,14 @@ export const Board = () => {
 
     return () => {
       clearTimeout(lineTimeout);
-    }
-
+    };
   }, [lineClassName]);
 
   return (
     <div className={styles.board}>
       {guesses.map((guess, i) => {
-        const isCurrentGuess = i === guesses.findIndex((value) => value === null);
+        const isCurrentGuess =
+          i === guesses.findIndex((value) => value === null);
 
         return (
           <Line
