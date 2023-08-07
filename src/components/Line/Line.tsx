@@ -27,9 +27,9 @@ export const Line: FunctionComponent<LineProps> = ({
         let className = '';
 
         if (isFinal) {
-          if (char.toUpperCase() === solution[i].toUpperCase()) {
+          if (char === solution[i]) {
             className = 'correct';
-          } else if (solution.includes(char || char.toUpperCase())) {
+          } else if (solution.includes(char)) {
             className = 'close';
           } else {
             className = 'incorrect';
