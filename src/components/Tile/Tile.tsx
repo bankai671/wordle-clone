@@ -18,7 +18,7 @@ export const Tile: FunctionComponent<TileProps> = ({
     char && !isFinal && styles.scaleTile,
     isFinal && styles.rotateTile,
     styles[validationClassName],
-  ];
+  ].join(' ');
 
-  return <div className={classNames.join(' ')}>{char}</div>;
+  return <div className={classNames}>{char}</div>;
 };
