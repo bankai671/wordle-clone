@@ -1,6 +1,6 @@
 # Wordle Game Clone
 
-New York Times Wordle application clone on React and typescript
+New York Times Wordle application clone on React and Typescript
 
 ## Description
 
